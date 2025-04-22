@@ -13,5 +13,5 @@ public interface ClientService {
 
   ClientResponse getCustomerByEmail(String email);
 
-    ClientServiceRootResponse clientRegister(ClientServiceRootRequest clientRootRequest);
+  ClientServiceRootResponse clientRegister(ClientServiceRootRequest clientRootRequest);
 }
