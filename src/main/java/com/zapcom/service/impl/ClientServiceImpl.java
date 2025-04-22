@@ -37,20 +37,21 @@ public class ClientServiceImpl implements ClientService {
 
   private final AuthServiceClient authServiceClient;
   private final PasswordEncoder passwordEncoder;
-  //used for actual-service
+  // used for actual-service
   private final ClientServiceRepository clientServiceRepository;
 
   @Value("${auth-service.base-url}")
   private String authServiceBaseUrl;
 
   public ClientServiceImpl(
-          ClientRepository customerRepository,
-          AuthServiceClient authServiceClient,
-          PasswordEncoder passwordEncoder, ClientServiceRepository clientServiceRepository) {
+      ClientRepository customerRepository,
+      AuthServiceClient authServiceClient,
+      PasswordEncoder passwordEncoder,
+      ClientServiceRepository clientServiceRepository) {
     this.customerRepository = customerRepository;
     this.authServiceClient = authServiceClient;
     this.passwordEncoder = passwordEncoder;
-      this.clientServiceRepository = clientServiceRepository;
+    this.clientServiceRepository = clientServiceRepository;
   }
 
   // used webclient
@@ -156,62 +157,65 @@ public class ClientServiceImpl implements ClientService {
   @Override
   public ClientServiceRootResponse clientRegister(ClientServiceRootRequest clientRootRequest) {
     ClientProfileRequest clientProfileRequest = clientRootRequest.getClientProfileRequest();
-    LegalAndTaxComplianceRequest legalAndTaxComplianceFromRoot = clientRootRequest.getLegalAndTaxCompliance();
-    BankingDetailsRequest bankingDetailsRequestFromRoot =  clientRootRequest.getBankingDetailsRequest();
+    LegalAndTaxComplianceRequest legalAndTaxComplianceFromRoot =
+        clientRootRequest.getLegalAndTaxCompliance();
+    BankingDetailsRequest bankingDetailsRequestFromRoot =
+        clientRootRequest.getBankingDetailsRequest();
     AdminDetailsRequest adminDetailsRequestFromRoot = clientRootRequest.getAdminDetailsRequest();
     RegisteredAddressRequest registeredAddressRequest = clientProfileRequest.getRegisteredAddress();
     PrimaryRequest primaryRequestFromAdmin = adminDetailsRequestFromRoot.getPrimaryRequest();
     TechnicalRequest technicalRequestFromAdmin = adminDetailsRequestFromRoot.getTechnicalRequest();
 
-
-    LegalAndTaxComplianceRequest legalAndTaxComplianceRequest =LegalAndTaxComplianceRequest
-            .builder()
+    LegalAndTaxComplianceRequest legalAndTaxComplianceRequest =
+        LegalAndTaxComplianceRequest.builder()
             .gstNumber(legalAndTaxComplianceFromRoot.getGstNumber())
             .panCard(legalAndTaxComplianceFromRoot.getPanCard())
             .fssaiLicense(legalAndTaxComplianceFromRoot.getFssaiLicense())
-            . shopsAndEstablishmentLicense(legalAndTaxComplianceFromRoot.getShopsAndEstablishmentLicense())
+            .shopsAndEstablishmentLicense(
+                legalAndTaxComplianceFromRoot.getShopsAndEstablishmentLicense())
             .tradeLicense(legalAndTaxComplianceFromRoot.getTradeLicense())
             .build();
-     BankingDetailsRequest bankingDetailsRequest = BankingDetailsRequest
-             .builder()
-             .bankAccountNumber(bankingDetailsRequestFromRoot.getBankAccountNumber())
-             . bankName(bankingDetailsRequestFromRoot.getBankName())
-             . ifscCode(bankingDetailsRequestFromRoot.getIfscCode())
-             . cancelledChequeOrBankStatement(bankingDetailsRequestFromRoot.getCancelledChequeOrBankStatement())
-             .build();
+    BankingDetailsRequest bankingDetailsRequest =
+        BankingDetailsRequest.builder()
+            .bankAccountNumber(bankingDetailsRequestFromRoot.getBankAccountNumber())
+            .bankName(bankingDetailsRequestFromRoot.getBankName())
+            .ifscCode(bankingDetailsRequestFromRoot.getIfscCode())
+            .cancelledChequeOrBankStatement(
+                bankingDetailsRequestFromRoot.getCancelledChequeOrBankStatement())
+            .build();
 
-    PrimaryRequest primaryRequest = PrimaryRequest
-            .builder()
+    PrimaryRequest primaryRequest =
+        PrimaryRequest.builder()
             .name(primaryRequestFromAdmin.getName())
-            . password(primaryRequestFromAdmin.getPassword())
-            . phone(primaryRequestFromAdmin.getPhone())
-            . address(primaryRequestFromAdmin.getAddress())
+            .password(primaryRequestFromAdmin.getPassword())
+            .phone(primaryRequestFromAdmin.getPhone())
+            .address(primaryRequestFromAdmin.getAddress())
             .timeZone(primaryRequestFromAdmin.getTimeZone())
             .build();
-    TechnicalRequest technicalRequest = TechnicalRequest
-            .builder()
+    TechnicalRequest technicalRequest =
+        TechnicalRequest.builder()
             .technicalSupportName(technicalRequestFromAdmin.getTechnicalSupportName())
             .technicalSupportEmail(technicalRequestFromAdmin.getTechnicalSupportEmail())
             .technicalSupportPhone(technicalRequestFromAdmin.getTechnicalSupportPhone())
             .build();
 
-     AdminDetailsRequest adminDetailsRequest = AdminDetailsRequest
-             .builder()
-             .primaryRequest(primaryRequest)
-             .technicalRequest(technicalRequest)
-             .build();
+    AdminDetailsRequest adminDetailsRequest =
+        AdminDetailsRequest.builder()
+            .primaryRequest(primaryRequest)
+            .technicalRequest(technicalRequest)
+            .build();
 
-
-    RegisteredAddress registeredAddress = RegisteredAddress
-            .builder()
+    RegisteredAddress registeredAddress =
+        RegisteredAddress.builder()
             .street(registeredAddressRequest.getStreet())
             .city(registeredAddressRequest.getCity())
             .state(registeredAddressRequest.getState())
             .pinCode(registeredAddressRequest.getPinCode())
             .build();
 
-    ClientProfile customerProfile = ClientProfile
-            .builder().customerName(clientProfileRequest.getCustomerName())
+    ClientProfile customerProfile =
+        ClientProfile.builder()
+            .customerName(clientProfileRequest.getCustomerName())
             .industryType(clientProfileRequest.getIndustryType())
             .businessCategory(clientProfileRequest.getBusinessCategory())
             .registeredAddress(registeredAddress)
@@ -220,54 +224,52 @@ public class ClientServiceImpl implements ClientService {
             .customerWebsite(clientProfileRequest.getCustomerWebsite())
             .customerRegistrationNumber(clientProfileRequest.getCustomerRegistrationNumber())
             .ownerName(clientProfileRequest.getOwnerName())
-            . contactNumber(clientProfileRequest.getContactNumber())
-            . customerEmail(clientProfileRequest.getCustomerEmail())
+            .contactNumber(clientProfileRequest.getContactNumber())
+            .customerEmail(clientProfileRequest.getCustomerEmail())
             .build();
 
-    LegalAndTaxCompliance legalAndTaxCompliance = LegalAndTaxCompliance
-            .builder()
+    LegalAndTaxCompliance legalAndTaxCompliance =
+        LegalAndTaxCompliance.builder()
             .gstNumber(legalAndTaxComplianceFromRoot.getGstNumber())
             .panCard(legalAndTaxComplianceFromRoot.getPanCard())
             .fssaiLicense(legalAndTaxComplianceFromRoot.getFssaiLicense())
-            . shopsAndEstablishmentLicense(legalAndTaxComplianceFromRoot.getShopsAndEstablishmentLicense())
+            .shopsAndEstablishmentLicense(
+                legalAndTaxComplianceFromRoot.getShopsAndEstablishmentLicense())
             .tradeLicense(legalAndTaxComplianceFromRoot.getTradeLicense())
             .build();
 
-    Primary primary = Primary
-            .builder()
+    Primary primary =
+        Primary.builder()
             .name(primaryRequestFromAdmin.getName())
-            . password(primaryRequestFromAdmin.getPassword())
-            . phone(primaryRequestFromAdmin.getPhone())
-            . address(primaryRequestFromAdmin.getAddress())
+            .password(primaryRequestFromAdmin.getPassword())
+            .phone(primaryRequestFromAdmin.getPhone())
+            .address(primaryRequestFromAdmin.getAddress())
             .timeZone(primaryRequestFromAdmin.getTimeZone())
             .build();
-    Technical technical = Technical
-            .builder()
+    Technical technical =
+        Technical.builder()
             .name(technicalRequestFromAdmin.getTechnicalSupportName())
             .email(technicalRequestFromAdmin.getTechnicalSupportEmail())
             .phone(technicalRequestFromAdmin.getTechnicalSupportPhone())
             .build();
-    AdminDetails adminDetails = AdminDetails
-            .builder()
-            .primary(primary)
-            .technical(technical)
-            .build();
+    AdminDetails adminDetails =
+        AdminDetails.builder().primary(primary).technical(technical).build();
 
-    BankingDetails bankingDetails = BankingDetails
-            .builder()
+    BankingDetails bankingDetails =
+        BankingDetails.builder()
             .bankAccountNumber(bankingDetailsRequestFromRoot.getBankAccountNumber())
-            . bankName(bankingDetailsRequestFromRoot.getBankName())
-            . ifscCode(bankingDetailsRequestFromRoot.getIfscCode())
-            . cancelledChequeOrBankStatement(bankingDetailsRequestFromRoot.getCancelledChequeOrBankStatement())
+            .bankName(bankingDetailsRequestFromRoot.getBankName())
+            .ifscCode(bankingDetailsRequestFromRoot.getIfscCode())
+            .cancelledChequeOrBankStatement(
+                bankingDetailsRequestFromRoot.getCancelledChequeOrBankStatement())
             .build();
-    ClientServiceRootSchema clientServiceRootSchema = ClientServiceRootSchema
-            .builder()
+    ClientServiceRootSchema clientServiceRootSchema =
+        ClientServiceRootSchema.builder()
             .clientProfile(customerProfile)
             .legalAndTaxCompliance(legalAndTaxCompliance)
             .adminDetails(adminDetails)
             .bankingDetails(bankingDetails)
             .build();
-
 
     // Encode password before saving
     String rawPassword = primaryRequest.getPassword();
@@ -287,12 +289,9 @@ public class ClientServiceImpl implements ClientService {
 
     AuthRequest authRequest = new AuthRequest(email);
     String emailFromAuthServiceClient = authServiceClient.registerCustomer(email, authRequest);
-    ClientServiceRootResponse clientServiceRootResponse = ClientServiceRootResponse
-            .builder()
-            .customerEmail(emailFromAuthServiceClient)
-            .build();
+    ClientServiceRootResponse clientServiceRootResponse =
+        ClientServiceRootResponse.builder().customerEmail(emailFromAuthServiceClient).build();
 
     return clientServiceRootResponse;
-
   }
 }

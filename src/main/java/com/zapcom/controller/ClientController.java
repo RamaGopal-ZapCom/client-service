@@ -33,28 +33,34 @@ public class ClientController {
   private final ClientService customerService;
 
   @Operation(
-          summary = "Register a new client",
-          description = "This API registers a new client and requires an X-Client-Token header")
-  @ApiResponses(value = {
-          @ApiResponse(responseCode = "201", description = "Client registered successfully",
-                  content = @Content(mediaType = "application/json",
-                          schema = @Schema(implementation = String.class))),
-          @ApiResponse(responseCode = "400", description = "Invalid request format"),
-          @ApiResponse(responseCode = "500", description = "Internal server error")
-  })
+      summary = "Register a new client",
+      description = "This API registers a new client and requires an X-Client-Token header")
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "201",
+            description = "Client registered successfully",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = String.class))),
+        @ApiResponse(responseCode = "400", description = "Invalid request format"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+      })
   @PostMapping("/register")
   public ResponseEntity<?> register(
-          @Parameter(
-                  description = "API token provided by the client",
-                  required = true,
-                  example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9")
-          @RequestHeader("X-Client-Token") String token,
-
-          @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                  description = "Client registration details",
-                  required = true,
-                  content = @Content(schema = @Schema(implementation = ClientSchema.class)))
-          @RequestBody ClientSchema customer) {
+      @Parameter(
+              description = "API token provided by the client",
+              required = true,
+              example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9")
+          @RequestHeader("X-Client-Token")
+          String token,
+      @io.swagger.v3.oas.annotations.parameters.RequestBody(
+              description = "Client registration details",
+              required = true,
+              content = @Content(schema = @Schema(implementation = ClientSchema.class)))
+          @RequestBody
+          ClientSchema customer) {
 
     // You can log or validate token here if needed
 
@@ -62,7 +68,7 @@ public class ClientController {
     return new ResponseEntity<>(message, HttpStatus.CREATED);
   }
 
-/*  @PostMapping("/register")
+  /*  @PostMapping("/register")
   public ResponseEntity<?> register(@RequestBody ClientSchema customer) {
     String message = customerService.registerCustomer(customer);
     return new ResponseEntity<>(message, HttpStatus.CREATED);
@@ -81,6 +87,7 @@ public class ClientController {
     ClientResponse customerResponse = customerService.getCustomerByEmail(email);
     return new ResponseEntity<>(customerResponse, HttpStatus.OK);
   }
+
   @Hidden
   @PostMapping("/clientRegister")
   public ResponseEntity<?> clientRegister(@RequestBody ClientServiceRootRequest clientRootRequest) {

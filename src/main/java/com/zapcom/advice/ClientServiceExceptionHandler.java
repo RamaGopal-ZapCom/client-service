@@ -14,7 +14,6 @@ import org.springframework.web.context.request.WebRequest;
 /** Created by Rama Gopal Project Name - client-service */
 @RestControllerAdvice
 public class ClientServiceExceptionHandler {
-
   @ExceptionHandler(feign.RetryableException.class)
   public ResponseEntity<Object> handleFeignRetryableException(
       feign.RetryableException ex, WebRequest request) {
@@ -27,7 +26,6 @@ public class ClientServiceExceptionHandler {
         ClientServiceConstants.MESSAGE, "Downstream service is not available: " + ex.getMessage());
     body.put(
         ClientServiceConstants.PATH, ((ServletWebRequest) request).getRequest().getRequestURI());
-
     return new ResponseEntity<>(body, status);
   }
 

@@ -21,11 +21,9 @@ public class ClientServiceConfiguration {
     return new BCryptPasswordEncoder();
   }
 
-  @Autowired
-  private MongoDatabaseFactory mongoDatabaseFactory;
+  @Autowired private MongoDatabaseFactory mongoDatabaseFactory;
 
-  @Autowired
-  private MongoMappingContext mongoMappingContext;
+  @Autowired private MongoMappingContext mongoMappingContext;
 
   @Bean
   public MappingMongoConverter mappingMongoConverter() {
@@ -34,6 +32,5 @@ public class ClientServiceConfiguration {
     MappingMongoConverter converter = new MappingMongoConverter(dbRefResolver, mongoMappingContext);
     converter.setTypeMapper(new DefaultMongoTypeMapper(null));
     return converter;
-
   }
 }
