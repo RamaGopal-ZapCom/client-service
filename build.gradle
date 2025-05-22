@@ -61,7 +61,14 @@ spotless {
 	}
 }
 
-task installLocalGitHook(type: Copy) {
+bootJar {
+	archiveBaseName = 'client-service-docker'  // Custom JAR name
+	archiveVersion = ''                    // Optional: can be removed if you don't want version in the name
+	archiveExtension = 'jar'                    // Set to JAR explicitly
+}
+
+
+	task installLocalGitHook(type: Copy) {
 	from new File(rootProject.rootDir, 'scripts/pre-commit')
 	into { new File(rootProject.rootDir, '.git/hooks') }
 	fileMode 0775
